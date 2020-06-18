@@ -4,6 +4,8 @@ import sqlite3
 class DataBase():
     __con, __cur = None, None
     
+    ###############################################
+    # private functions
     @classmethod
     def __open(cls):
         cls.__con = sqlite3.connect( os.path.join( os.getcwd(), 'res', 'db', 'save.db' ) )

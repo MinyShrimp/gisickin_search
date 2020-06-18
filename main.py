@@ -9,6 +9,7 @@ from form.post_index     import PostIndexForm
 from form.search_keyword import SearchKeywordForm
 
 from module.database import DataBase
+from module.crawling import GisickInCrawling
 
 class MainForm():
     def __init__(self):
@@ -22,6 +23,7 @@ class MainForm():
         # init
         self.__init_tb_keywords_items()
         self.__init_tb_answers_items()
+        self.__init_tb_search_items()
         self.ui.show()
 
         # set child form
@@ -33,9 +35,19 @@ class MainForm():
 
         # class values
         self.is_searching = False
+        self.search_datas = []
 
     ###########################################
     # private functions
+    def __init_tb_search_items(self):
+        self.ui.tb_posts.clearContents()
+        self.ui.tb_posts.setRowCount(0)
+        self.search_datas = [ list(_) for _ in DataBase.select_search_all() ] 
+        for d in self.search_datas:
+            rowPosition = self.ui.tb_posts.rowCount()
+            self.ui.tb_posts.insertRow( rowPosition )
+            self.ui.tb_posts.setItem( rowPosition, 0, QtWidgets.QTableWidgetItem(d[1]) )
+
     def __init_tb_keywords_items(self):
         self.ui.tb_keywords.clearContents()
         self.ui.tb_keywords.setRowCount(0)
