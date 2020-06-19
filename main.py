@@ -2,10 +2,8 @@ import sys, os
 import threading
 from datetime import date
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtCore import *
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5 import uic
 
 import clipboard
 
