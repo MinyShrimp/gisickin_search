@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>지식인 검색기</string>
+   <string>지식인 체커</string>
   </property>
   <widget class="QTableWidget" name="tb_posts">
    <property name="geometry">
