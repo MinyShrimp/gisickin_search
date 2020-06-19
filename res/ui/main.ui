@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
+    <width>650</width>
     <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>820</width>
+    <width>430</width>
     <height>560</height>
    </size>
   </property>
@@ -25,21 +25,6 @@
   <property name="windowTitle">
    <string>지식인 검색기</string>
   </property>
-  <widget class="QWebEngineView" name="view_web" native="true">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>10</y>
-     <width>380</width>
-     <height>511</height>
-    </rect>
-   </property>
-   <property name="url" stdset="0">
-    <url>
-     <string>https://nid.naver.com/nidlogin.login?url=https%3A%2F%2Fkin.naver.com%2Findex.nhn</string>
-    </url>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="tb_posts">
    <property name="geometry">
     <rect>
@@ -84,21 +69,21 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>111</width>
+     <width>201</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>지식인 게시글</string>
+    <string>지식인 게시글 (더블클릭 = 접속)</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="tb_keywords">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>30</y>
-     <width>200</width>
-     <height>200</height>
+     <x>430</x>
+     <y>230</y>
+     <width>210</width>
+     <height>290</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -140,8 +125,8 @@
   <widget class="QPushButton" name="btn_keyword">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>240</y>
+     <x>550</x>
+     <y>530</y>
      <width>90</width>
      <height>23</height>
     </rect>
@@ -155,7 +140,7 @@
     <rect>
      <x>140</x>
      <y>530</y>
-     <width>71</width>
+     <width>70</width>
      <height>23</height>
     </rect>
    </property>
@@ -166,8 +151,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>10</y>
+     <x>430</x>
+     <y>210</y>
      <width>81</width>
      <height>16</height>
     </rect>
@@ -179,10 +164,10 @@
   <widget class="QTableWidget" name="tb_answers">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>310</y>
+     <x>220</x>
+     <y>29</y>
      <width>200</width>
-     <height>210</height>
+     <height>490</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -229,7 +214,7 @@
   <widget class="QPushButton" name="btn_answer">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>330</x>
      <y>530</y>
      <width>90</width>
      <height>23</height>
@@ -242,14 +227,14 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>290</y>
-     <width>71</width>
+     <x>220</x>
+     <y>10</y>
+     <width>181</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>답변 복사</string>
+    <string>답변 복사 (더블클릭 = 복사)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_start">
@@ -257,7 +242,7 @@
     <rect>
      <x>10</x>
      <y>530</y>
-     <width>121</width>
+     <width>120</width>
      <height>23</height>
     </rect>
    </property>
@@ -265,53 +250,124 @@
     <string>검색 시작</string>
    </property>
   </widget>
-  <widget class="QProgressBar" name="pb_web">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>530</y>
-     <width>391</width>
-     <height>23</height>
+     <x>430</x>
+     <y>10</y>
+     <width>210</width>
+     <height>180</height>
     </rect>
    </property>
-   <property name="value">
-    <number>0</number>
+   <property name="title">
+    <string>설정</string>
    </property>
-  </widget>
-  <widget class="QPushButton" name="btn_keyword_close">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>240</y>
-     <width>90</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>삭제</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_answer_close">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>530</y>
-     <width>90</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>삭제</string>
-   </property>
+   <widget class="QSpinBox" name="pg_intellectual_start">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="date">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>2020</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="displayFormat">
+     <string>yyyy-MM-dd</string>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>검색 기간</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>페이지</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="pg_intellectual_end">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>140</y>
+      <width>71</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>145</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>~</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>56</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>검색일</string>
+    </property>
+   </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
