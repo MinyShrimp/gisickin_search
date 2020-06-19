@@ -70,22 +70,22 @@ class DataBase():
         cls.__execute("update search_keyword set Title='{}' where id={};".format(title, id), True)
     
     ###############################################
-    # 검색 크롤링 목록 가져오기
+    # 검색 금지 목록 가져오기
     @classmethod
-    def select_search_all(cls):
-        return cls.__execute('select ID, Title, Url from search', False)
+    def select_ban_all(cls):
+        return cls.__execute('select ID, Title from search_ban', False)
     
-    # 검색 크롤링 목록 제거하기
+    # 검색 금지 목록 제거하기
     @classmethod
-    def delete_search(cls, id):
-        cls.__execute('delete from search where ID={}'.format(id), True)
+    def delete_ban(cls, id):
+        cls.__execute('delete from search_ban where ID={}'.format(id), True)
     
-    # 검색 크롤링 목록 추가하기
+    # 검색 금지 목록 추가하기
     @classmethod
-    def insert_search(cls, title, url):
-        cls.__execute("insert into search(Title, Url) values('{}', '{}')".format(title, url), True)
+    def insert_ban(cls, title):
+        cls.__execute("insert into search_ban(Title) values('{}')".format(title), True)
 
-    # 검색 크롤링 목록 수정하기
-    #@classmethod
-    #def update_search(cls, id, title):
-    #    cls.__execute("update search set Title='{}' where id={};".format(title, id), True)
+    # 검색 금지 목록 수정하기
+    @classmethod
+    def update_ban(cls, id, title):
+        cls.__execute("update search_ban set Title='{}' where id={};".format(title, id), True)

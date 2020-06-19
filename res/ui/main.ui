@@ -77,64 +77,6 @@
     <string>지식인 게시글 (더블클릭 = 접속)</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tb_keywords">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>230</y>
-     <width>210</width>
-     <height>290</height>
-    </rect>
-   </property>
-   <property name="editTriggers">
-    <set>QAbstractItemView::NoEditTriggers</set>
-   </property>
-   <attribute name="horizontalHeaderVisible">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="horizontalHeaderCascadingSectionResizes">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="horizontalHeaderHighlightSections">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="horizontalHeaderStretchLastSection">
-    <bool>true</bool>
-   </attribute>
-   <attribute name="verticalHeaderVisible">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="verticalHeaderCascadingSectionResizes">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-    <bool>false</bool>
-   </attribute>
-   <attribute name="verticalHeaderStretchLastSection">
-    <bool>false</bool>
-   </attribute>
-   <column>
-    <property name="text">
-     <string>키워드</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QPushButton" name="btn_keyword">
-   <property name="geometry">
-    <rect>
-     <x>550</x>
-     <y>530</y>
-     <width>90</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>편집</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_clear">
    <property name="geometry">
     <rect>
@@ -146,19 +88,6 @@
    </property>
    <property name="text">
     <string>비우기</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>210</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>검색 키워드</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="tb_answers">
@@ -372,6 +301,132 @@
      <string>검색일</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>200</y>
+     <width>210</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="tab_keyword">
+    <attribute name="title">
+     <string>키워드</string>
+    </attribute>
+    <widget class="QTableWidget" name="tb_keywords">
+     <property name="geometry">
+      <rect>
+       <x>-1</x>
+       <y>-1</y>
+       <width>206</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderHighlightSections">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>키워드</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_ban">
+    <attribute name="title">
+     <string>금지어</string>
+    </attribute>
+    <widget class="QTableWidget" name="tb_ban">
+     <property name="geometry">
+      <rect>
+       <x>-1</x>
+       <y>-1</y>
+       <width>206</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderHighlightSections">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>키워드</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_keyword">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>530</y>
+     <width>90</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>편집</string>
+   </property>
   </widget>
  </widget>
  <resources/>

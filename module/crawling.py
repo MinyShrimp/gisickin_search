@@ -1,23 +1,30 @@
 from datetime import date
-from pprint import pprint
-import threading, time
+import threading, time, re
 
 import requests
 from bs4 import BeautifulSoup
 
 class Crawling(threading.Thread):
-    def __init__(self, _keywords, _s_page, _e_page, _date, _cb_function):
+    def __init__(self, _keywords, _bans, _s_page, _e_page, _date, _cb_function):
         threading.Thread.__init__(self)
 
         self.datas, self.is_stop = [], False
         self.start_page, self.end_page = _s_page, _e_page
         self.date, self.cb_function = _date.strftime("%Y.%m.%d."), _cb_function
         self.__set_keywords( _keywords )
+        self.bans = _bans
 
     ###############################################
     # private functions
     def __set_keywords(self, _keywords):
         self.keywords = [ _.replace(' ', '+') for _ in _keywords ]
+
+    def __is_str_ban(self, _str):
+        for _b in self.bans:
+            p = re.compile( _b )
+            if p.search( _str ) is not None:
+                return True
+        return False
 
     # 지식인 크롤링
     def __intellectual_index(self, _keyword, _page):
@@ -37,8 +44,9 @@ class Crawling(threading.Thread):
             for key in self.keywords:
                 for page in range(self.start_page, self.end_page+1):
                     for _ in self.__intellectual_index( key, page ):
-                        if not (_[1] in [ __[1] for __ in _result]):
-                            _result.append( _ )
+                        if self.__is_str_ban( _[1] ) or ( _[1] in [ __[1] for __ in _result] ):
+                            continue
+                        _result.append( _ )
             
             if len(self.datas) == 0:
                 self.datas = _result

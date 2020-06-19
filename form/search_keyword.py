@@ -8,6 +8,7 @@ from module.database import DataBase
 class SearchKeywordForm(BaseForm):
     def __init__(self):
         BaseForm.__init__(self, 'search_keyword.ui')
+        self.ui.setWindowTitle("검색 키워드 목록")
 
         # set ui callback function
         self.ui.btn_add.clicked.connect(self.btn_add_click_event)
