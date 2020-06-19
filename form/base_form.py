@@ -1,6 +1,6 @@
 import os
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import *
 from PyQt5 import uic
 
@@ -8,6 +8,7 @@ class BaseForm():
     def __init__(self, filepath):
         self.ui = uic.loadUi(os.path.join(os.getcwd(), "res", "ui", filepath))
         self.ui.setVisible(False)
+        self.ui.setWindowIcon( QtGui.QIcon( os.path.join(os.getcwd(), "res", "icon", "icon.ico") ) )
 
         # set ui callback function
         self.ui.btn_close.clicked.connect(self.btn_close_click_event)

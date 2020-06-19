@@ -2,7 +2,7 @@ import sys, os
 import threading
 from datetime import date
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import uic
@@ -19,6 +19,7 @@ from module.chrome_selenium import Chrome
 class MainForm():
     def __init__(self):
         self.ui = uic.loadUi(os.path.join(os.getcwd(), "res", "ui", "main.ui"))
+        self.ui.setWindowIcon( QtGui.QIcon( os.path.join(os.getcwd(), "res", "icon", "icon.ico") ) )
 
         # set ui callback function
         self.ui.btn_start.clicked.connect(self.btn_start_click_event)
