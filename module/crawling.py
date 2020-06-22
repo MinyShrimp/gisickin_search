@@ -4,33 +4,32 @@ import threading, time, re
 import requests
 from bs4 import BeautifulSoup
 
+from crawling_qna import CrawlingQNA
+
 class Crawling(threading.Thread):
-    def __init__(self, _keywords, _bans, _s_page, _e_page, _date, _cb_function):
+    def __init__(self, _keywords, _bans, _cb_functions):
         threading.Thread.__init__(self)
 
-        self.datas, self.is_stop = [], False
-        self.start_page, self.end_page = _s_page, _e_page
-        self.date, self.cb_function = _date.strftime("%Y.%m.%d."), _cb_function
-        self.__set_keywords( _keywords )
-        self.bans = _bans
+        self.qnas = [ CrawlingQNA( _, _cb_functions[_+1] ) for _ in range(4) ]
+        self.datas, self.cb_function = [], _cb_functions[0]
+        self.keywords, self.bans = _keywords, _bans
+        self.is_stop = False
 
     ###############################################
     # private functions
-    def __set_keywords(self, _keywords):
-        self.keywords = [ _.replace(' ', '+') for _ in _keywords ]
-
     def __is_str_ban(self, _str):
         for _b in self.bans:
             p = re.compile( _b )
             if p.search( _str ) is not None:
                 return True
         return False
-
-    # 지식인 크롤링
-    def __intellectual_index(self, _keyword, _page):
-        html = requests.get("https://kin.naver.com/search/list.nhn?sort=date&section=kin&query={}&page={}&period={}%7C{}".format(_keyword, _page, self.date, self.date))
-        bs   = BeautifulSoup(html.text, "html.parser").select('.basic1 > li > dl > dt > a')
-        return [ [ _.get('href'), _.text ] for _ in bs ]
+    
+    def __is_str_keyword(self, _str):
+        for _b in self.keywords:
+            p = re.compile( _b )
+            if p.search( _str ) is not None:
+                return True
+        return False
 
     ###############################################
     # 일정시간마다 체크해서 업데이트 되면(저장된 파일 목록과 다르면)
@@ -38,21 +37,26 @@ class Crawling(threading.Thread):
         while True:
             if self.is_stop:
                 self.datas = []
+                for f in self.qnas:
+                    f.datas = []
                 return None
 
+            #_result = [ f.get_lists() for f in qnas ]
             _result = []
-            for key in self.keywords:
-                for page in range(self.start_page, self.end_page+1):
-                    for _ in self.__intellectual_index( key, page ):
-                        if self.__is_str_ban( _[1] ) or ( _[1] in [ __[1] for __ in _result] ):
-                            continue
-                        _result.append( _ )
-            
-            if len(self.datas) == 0:
-                self.datas = _result
-                self.cb_function( _result )
+            for i, f in enumerate(self.qnas):
+                for _ in f.get_lists():
+                    if self.__is_str_ban( _[1] ) or ( _[1] in [ __[1] for __ in self.datas] ):
+                        continue
+                    if self.__is_str_keyword( _[1] ):
+                        _result.append(_)
+
+            #if len(self.datas) == 0 and len(_result) != 0:
+            #    for _ in _result:
+            #        self.datas.append( _ )
+            #    self.cb_function( self.datas )
+            if len(_result) == 0:
+                pass
             else:
-                if self.datas[0][1] != _result[0][1]:
-                    self.datas = _result
-                    self.cb_function( _result )
-            time.sleep(5)
+                for _ in _result:
+                    self.datas.append( _ )
+                self.cb_function( self.datas )

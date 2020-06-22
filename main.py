@@ -7,6 +7,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import uic
 
+from selenium.common.exceptions import WebDriverException
 import clipboard
 
 from form.post_index     import PostIndexForm
@@ -33,6 +34,11 @@ class MainForm():
         self.ui.tb_posts.itemDoubleClicked.connect(self.tb_posts_d_click_event)
         self.ui.tb_answers.itemDoubleClicked.connect(self.tb_answers_d_click_event)
 
+        self.ui.tb_jn.itemDoubleClicked.connect( self.tb_jn_d_click_event )
+        self.ui.tb_qna.itemDoubleClicked.connect( self.tb_qna_d_click_event )
+        self.ui.tb_gomin.itemDoubleClicked.connect( self.tb_gomin_d_click_event )
+        self.ui.tb_qna_total.itemDoubleClicked.connect( self.tb_qna_total_d_click_event )
+
         # init tables
         self.__init_tb_keywords_items()
         self.__init_tb_answers_items()
@@ -40,7 +46,7 @@ class MainForm():
         self.ui.show()
 
         # init QDateEdit to today
-        self.ui.date.setDate(date.today())
+        # self.ui.date.setDate(date.today())
 
         # set child form
         self.post_index_form     = PostIndexForm()
@@ -54,7 +60,7 @@ class MainForm():
 
         # class values
         self.is_searching = False
-        self.search_datas = []
+        self.search_datas, self.qna_datas = [], [ [], [], [], [] ]
 
         # daemon thread
         self.web_crawling = None
@@ -100,15 +106,52 @@ class MainForm():
         for i, v in enumerate(_datas):
             self.ui.tb_answers.setItem( i, 0, QtWidgets.QTableWidgetItem(v[1]) )
             self.ui.tb_answers.setItem( i, 1, QtWidgets.QTableWidgetItem(v[2]) )
+    
+    def __init_tb_qna_total_items(self, _datas):
+        self.ui.tb_qna_total.clearContents()
+        self.ui.tb_qna_total.setRowCount(len(_datas))
+        for i, v in enumerate(_datas):
+            self.ui.tb_qna_total.setItem( i, 0, QtWidgets.QTableWidgetItem(v[1]) )
+        self.qna_datas[0] = _datas
+    
+    def __init_tb_qna_items(self, _datas):
+        self.ui.tb_qna.clearContents()
+        self.ui.tb_qna.setRowCount(len(_datas))
+        for i, v in enumerate(_datas):
+            self.ui.tb_qna.setItem( i, 0, QtWidgets.QTableWidgetItem(v[1]) )
+        self.qna_datas[1] = _datas
+    
+    def __init_tb_jn_items(self, _datas):
+        self.ui.tb_jn.clearContents()
+        self.ui.tb_jn.setRowCount(len(_datas))
+        for i, v in enumerate(_datas):
+            self.ui.tb_jn.setItem( i, 0, QtWidgets.QTableWidgetItem(v[1]) )
+        self.qna_datas[2] = _datas
+    
+    def __init_tb_gomin_items(self, _datas):
+        self.ui.tb_gomin.clearContents()
+        self.ui.tb_gomin.setRowCount(len(_datas))
+        for i, v in enumerate(_datas):
+            self.ui.tb_gomin.setItem( i, 0, QtWidgets.QTableWidgetItem(v[1]) )
+        self.qna_datas[3] = _datas
 
     def __start_thread(self):
-        _tmp_date = self.ui.date.date()
+        #_tmp_date = self.ui.date.date()
+        #self.web_crawling = Crawling( 
+        #    [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
+        #    [ _[1] for _ in DataBase.select_ban_all() ],     # ban
+        #    self.ui.pg_intellectual_start.value(), self.ui.pg_intellectual_end.value(), # 페이지
+        #    date( _tmp_date.year(), _tmp_date.month(), _tmp_date.day() ), # 기간
+        #    self.__init_tb_search_items # callback function
+        #)
         self.web_crawling = Crawling( 
             [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
             [ _[1] for _ in DataBase.select_ban_all() ],     # ban
-            self.ui.pg_intellectual_start.value(), self.ui.pg_intellectual_end.value(), # 페이지
-            date( _tmp_date.year(), _tmp_date.month(), _tmp_date.day() ), # 기간
-            self.__init_tb_search_items # callback function
+            [   self.__init_tb_search_items,
+                self.__init_tb_qna_total_items,
+                self.__init_tb_qna_items,
+                self.__init_tb_jn_items,
+                self.__init_tb_gomin_items ]
         )
         self.web_crawling.daemon = True
         self.web_crawling.start()
@@ -151,17 +194,34 @@ class MainForm():
     def btn_clear_click_event(self):
         self.ui.tb_posts.clearContents()
         self.ui.tb_posts.setRowCount(0)
+        self.web_crawling.datas = []
 
     ###########################################
     # Table Item Double Click Events
-    def tb_posts_d_click_event(self, item):
-        #self.ui.view_web.load( QUrl(_data[item.row()][0]) )
-        _data = self.search_datas if self.web_crawling == None else self.web_crawling.datas
+    def __get_chrome(self, url):
         try:
-            self.chrome.get( _data[item.row()][0] )
-        except:
+            self.chrome.get( url )
+        except WebDriverException:
+            self.__start_chrome()
+        except AttributeError:
             self.__start_chrome()
 
+    def tb_posts_d_click_event(self, item):
+        _data = self.search_datas if self.web_crawling == None else self.web_crawling.datas
+        self.__get_chrome( _data[item.row()][0] )
+        
+    def tb_qna_total_d_click_event(self, item):
+        self.__get_chrome( self.qna_datas[0][item.row()][0] )
+    
+    def tb_qna_d_click_event(self, item):
+        self.__get_chrome( self.qna_datas[1][item.row()][0] )
+
+    def tb_jn_d_click_event(self, item):
+        self.__get_chrome( self.qna_datas[2][item.row()][0] )
+
+    def tb_gomin_d_click_event(self, item):
+        self.__get_chrome( self.qna_datas[3][item.row()][0] )
+    
     def tb_answers_d_click_event(self, item):
         _data = DataBase.select_post_all()
         _tmp = _data[item.row()][2]
