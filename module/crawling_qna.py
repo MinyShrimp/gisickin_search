@@ -25,7 +25,6 @@ class CrawlingQNA():
         return [ [ "https://kin.naver.com{}".format(_.get('href')), _.text ] for _ in bs ]
     
     ###############################################
-    # 일정시간마다 체크해서 업데이트 되면(저장된 파일 목록과 다르면)
     def get_lists(self):
         _result = []
         for _ in self.__qna_index( ):

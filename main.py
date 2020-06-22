@@ -45,9 +45,6 @@ class MainForm():
         self.__init_tb_ban_items()
         self.ui.show()
 
-        # init QDateEdit to today
-        # self.ui.date.setDate(date.today())
-
         # set child form
         self.post_index_form     = PostIndexForm()
         self.post_index_form.add_callback_function( self.__init_tb_answers_items )
@@ -136,14 +133,6 @@ class MainForm():
         self.qna_datas[3] = _datas
 
     def __start_thread(self):
-        #_tmp_date = self.ui.date.date()
-        #self.web_crawling = Crawling( 
-        #    [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
-        #    [ _[1] for _ in DataBase.select_ban_all() ],     # ban
-        #    self.ui.pg_intellectual_start.value(), self.ui.pg_intellectual_end.value(), # 페이지
-        #    date( _tmp_date.year(), _tmp_date.month(), _tmp_date.day() ), # 기간
-        #    self.__init_tb_search_items # callback function
-        #)
         self.web_crawling = Crawling( 
             [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
             [ _[1] for _ in DataBase.select_ban_all() ],     # ban

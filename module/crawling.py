@@ -50,13 +50,7 @@ class Crawling(threading.Thread):
                     if self.__is_str_keyword( _[1] ):
                         _result.append(_)
 
-            #if len(self.datas) == 0 and len(_result) != 0:
-            #    for _ in _result:
-            #        self.datas.append( _ )
-            #    self.cb_function( self.datas )
-            if len(_result) == 0:
-                pass
-            else:
+            if len(_result) != 0:
                 for _ in _result:
                     self.datas.append( _ )
                 self.cb_function( self.datas )
