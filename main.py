@@ -58,11 +58,11 @@ class MainForm():
         # class values
         self.is_searching = False   
         self.search_datas, self.qna_datas = [], [ [], [], [], [] ]
-        #self.sound = QSound( os.path.join(os.getcwd(), "res", "sound", "alam.wav") )
+
+        # set sound value
         self.sound = QMediaPlayer( )
         self.sound.setMedia( QMediaContent( QUrl.fromLocalFile( os.path.join(os.getcwd(), "res", "sound", "alam.wav") ) ) )
         self.sound.setVolume(100)
-        self.sound.play()
 
         # daemon thread
         self.web_crawling = None

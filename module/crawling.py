@@ -43,7 +43,6 @@ class Crawling(threading.Thread):
                     f.datas = []
                 return None
 
-            #_result = [ f.get_lists() for f in qnas ]
             _result = []
             for i, f in enumerate(self.qnas):
                 for _ in f.get_lists():
