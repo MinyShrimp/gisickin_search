@@ -1,8 +1,9 @@
 from datetime import date
-import threading, time, re
+import threading, time, re, os
 
 import requests
 from bs4 import BeautifulSoup
+from PyQt5.QtMultimedia import QSound
 
 from crawling_qna import CrawlingQNA
 
@@ -14,6 +15,7 @@ class Crawling(threading.Thread):
         self.datas, self.cb_function = [], _cb_functions[0]
         self.keywords, self.bans = _keywords, _bans
         self.is_stop = False
+        self.sound = QSound( os.path.join(os.getcwd(), "res", "sound", "alam.wav") )
 
     ###############################################
     # private functions
@@ -54,3 +56,4 @@ class Crawling(threading.Thread):
                 for _ in _result:
                     self.datas.append( _ )
                 self.cb_function( self.datas )
+                self.sound.play()
