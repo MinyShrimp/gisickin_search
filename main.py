@@ -2,10 +2,10 @@ import sys, os
 import threading
 from datetime import date
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtCore import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5 import uic
+from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 
 from selenium.common.exceptions import WebDriverException
 import clipboard
@@ -56,8 +56,13 @@ class MainForm():
         self.search_keyword_form.add_callback_function( self.__init_tb_keywords_items )
 
         # class values
-        self.is_searching = False
+        self.is_searching = False   
         self.search_datas, self.qna_datas = [], [ [], [], [], [] ]
+        #self.sound = QSound( os.path.join(os.getcwd(), "res", "sound", "alam.wav") )
+        self.sound = QMediaPlayer( )
+        self.sound.setMedia( QMediaContent( QUrl.fromLocalFile( os.path.join(os.getcwd(), "res", "sound", "alam.wav") ) ) )
+        self.sound.setVolume(100)
+        self.sound.play()
 
         # daemon thread
         self.web_crawling = None
@@ -136,6 +141,7 @@ class MainForm():
         self.web_crawling = Crawling( 
             [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
             [ _[1] for _ in DataBase.select_ban_all() ],     # ban
+            self.__play_sound,
             [   self.__init_tb_search_items,
                 self.__init_tb_qna_total_items,
                 self.__init_tb_qna_items,
@@ -158,6 +164,9 @@ class MainForm():
     def __start_chrome(self):
         t = threading.Thread(target=self.__load_chrome, args=())
         t.start()
+    
+    def __play_sound(self):
+        self.sound.play()
 
     ###########################################
     # Button Events
@@ -183,7 +192,8 @@ class MainForm():
     def btn_clear_click_event(self):
         self.ui.tb_posts.clearContents()
         self.ui.tb_posts.setRowCount(0)
-        self.web_crawling.datas = []
+        if self.web_crawling is not None:
+            self.web_crawling.datas = []
 
     ###########################################
     # Table Item Double Click Events

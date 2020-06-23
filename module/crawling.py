@@ -8,14 +8,14 @@ from PyQt5.QtMultimedia import QSound
 from crawling_qna import CrawlingQNA
 
 class Crawling(threading.Thread):
-    def __init__(self, _keywords, _bans, _cb_functions):
+    def __init__(self, _keywords, _bans, _sound_function, _cb_functions):
         threading.Thread.__init__(self)
 
         self.qnas = [ CrawlingQNA( _, _cb_functions[_+1] ) for _ in range(4) ]
         self.datas, self.cb_function = [], _cb_functions[0]
+        self.sound_function = _sound_function
         self.keywords, self.bans = _keywords, _bans
         self.is_stop = False
-        self.sound = QSound( os.path.join(os.getcwd(), "res", "sound", "alam.wav") )
 
     ###############################################
     # private functions
@@ -56,4 +56,4 @@ class Crawling(threading.Thread):
                 for _ in _result:
                     self.datas.append( _ )
                 self.cb_function( self.datas )
-                self.sound.play()
+                self.sound_function()
