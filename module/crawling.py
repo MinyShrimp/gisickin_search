@@ -48,7 +48,9 @@ class Crawling(threading.Thread):
                 for _ in f.get_lists():
                     if self.__is_str_ban( _[1] ) or ( _[1] in [ __[1] for __ in self.datas] ):
                         continue
-                    if self.__is_str_keyword( _[1] ):
+                    if self.__is_str_ban( _[2] ) or ( _[2] in [ __[2] for __ in self.datas] ):
+                        continue
+                    if self.__is_str_keyword( _[1] ) or self.__is_str_keyword( _[2] ):
                         _result.append(_)
 
             if len(_result) != 0:
