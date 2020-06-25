@@ -142,11 +142,11 @@ class MainForm():
             [ _[1] for _ in DataBase.select_keyword_all() ], # keyword
             [ _[1] for _ in DataBase.select_ban_all() ],     # ban
             self.__play_sound,
-            [   self.__init_tb_search_items,
-                self.__init_tb_qna_total_items,
-                self.__init_tb_qna_items,
-                self.__init_tb_jn_items,
-                self.__init_tb_gomin_items ]
+            [ self.__init_tb_search_items,
+              self.__init_tb_qna_total_items,
+              self.__init_tb_qna_items,
+              self.__init_tb_jn_items,
+              self.__init_tb_gomin_items ]
         )
         self.web_crawling.daemon = True
         self.web_crawling.start()
